@@ -66,6 +66,6 @@ app.delete("/movies/:id", async (req, res) => {
     : res.status(404).send({ message: "Movie not found" });
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is running on PORT 5000");
 });
