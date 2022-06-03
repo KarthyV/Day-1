@@ -46,6 +46,26 @@ app.post("/movies", async (req, res) => {
   res.send(result);
 });
 
+app.put("/movies/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  const movie = await client
+    .db("B33WD")
+    .collection("movies")
+    .updateOne({ id }, { $set: data });
+  movie
+    ? res.status(200).send(movie)
+    : res.status(404).send({ message: "Movie not found" });
+});
+
+app.delete("/movies/:id", async (req, res) => {
+  const { id } = req.params;
+  const movie = await client.db("B33WD").collection("movies").deleteOne({ id });
+  movie.deletedCount > 0
+    ? res.status(200).send(movie)
+    : res.status(404).send({ message: "Movie not found" });
+});
+
 app.listen(5000, () => {
   console.log("Server is running on PORT 5000");
 });
