@@ -8,6 +8,10 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use("/movies", moviesRouter);
 
 // NOTE: NODE - MONGODB connection
@@ -22,10 +26,6 @@ const createConnection = async () => {
 };
 
 export const client = await createConnection();
-
-app.get("/", (req, res) => {
-  res.send("Hellow");
-});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on PORT ${process.env.PORT}`);
